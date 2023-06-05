@@ -1,17 +1,21 @@
 package com.example.rickynotas.model
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
-data class Nota @RequiresApi(Build.VERSION_CODES.O) constructor(
+@Entity
+@Parcelize
+data class Nota(
+    @PrimaryKey(autoGenerate = false)
     var id: String = UUID.randomUUID().toString(),
     var titulo: String = "",
     var descricao: String = "",
     var tarefas: MutableList<String> = mutableListOf(),
     var tarefasBool: MutableList<Boolean> = mutableListOf(),
-    var data: LocalDateTime = LocalDateTime.now(),
+    var data: String = "",
     var finalizado:Boolean = false
 
-)
+) : Parcelable

@@ -12,6 +12,8 @@ import com.example.rickynotas.extension.Toast
 import com.example.rickynotas.model.Nota
 import com.example.rickynotas.ui.adapter.TarefasAdapter
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class FormActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -22,16 +24,17 @@ class FormActivity : AppCompatActivity() {
     }
     private var count: Int = 0
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private var note = Nota(data = LocalDateTime.now())
+    private var note = Nota()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.toolbarVoltar.txtTitulo.text = "Criar Nota"
         configRv()
         configClicks()
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configClicks() {
@@ -60,7 +63,6 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun configRv() {
         with(binding) {
             rvTarefas.adapter = adapter
@@ -91,10 +93,22 @@ class FormActivity : AppCompatActivity() {
                 else -> {
                     note.titulo = titulo
                     note.descricao = descricao
+
+                    val dataStr = LocalDateTimeToString()
+
+                    note.data = dataStr
                     Toast(baseContext, note.toString())
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun LocalDateTimeToString(): String {
+        val data = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val dataStr = data.format(formatter)
+        return dataStr
     }
 
     private fun ocultarTeclado() {
