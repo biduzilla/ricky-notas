@@ -71,6 +71,9 @@ class FormActivity : AppCompatActivity() {
                 ocultarTeclado()
                 verificaCampos()
             }
+            toolbarVoltar.btnVoltar.setOnClickListener {
+                finish()
+            }
         }
     }
 
@@ -111,7 +114,7 @@ class FormActivity : AppCompatActivity() {
 
                     CoroutineScope(Dispatchers.IO).launch {notaDao.salvar(note) }
 
-                    Toast(baseContext, note.toString())
+                    finish()
                 }
             }
         }
