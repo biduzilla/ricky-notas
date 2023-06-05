@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.rickynotas.data.converter.Converters
 import com.example.rickynotas.data.dao.NotaDao
 import com.example.rickynotas.model.Nota
 
@@ -14,19 +16,19 @@ import com.example.rickynotas.model.Nota
     version = 1,
     exportSchema = true
 )
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
 
-abstract class AppDataBase : RoomDatabase() {
     abstract fun notaDao(): NotaDao
 
     companion object {
         @Volatile
-        private var db: AppDataBase? = null
-
-        fun instancia(context: Context): AppDataBase {
+        private var db: AppDatabase? = null
+        fun instancia(context: Context): AppDatabase {
             return db ?: Room.databaseBuilder(
                 context,
-                AppDataBase::class.java,
-                "ricky_notas.db"
+                AppDatabase::class.java,
+                "orgs.db"
             )
                 .build().also {
                     db = it

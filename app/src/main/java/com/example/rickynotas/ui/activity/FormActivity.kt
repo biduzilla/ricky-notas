@@ -6,14 +6,19 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickynotas.data.AppDatabase
+import com.example.rickynotas.data.dao.NotaDao
 import com.example.rickynotas.databinding.ActivityFormBinding
 import com.example.rickynotas.extension.Toast
 import com.example.rickynotas.model.Nota
 import com.example.rickynotas.ui.adapter.TarefasAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 class FormActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -21,6 +26,11 @@ class FormActivity : AppCompatActivity() {
     }
     private val adapter by lazy {
         TarefasAdapter()
+    }
+
+    private val notaDao: NotaDao by lazy {
+        val db = AppDatabase.instancia(this)
+        db.notaDao()
     }
     private var count: Int = 0
 
@@ -53,6 +63,7 @@ class FormActivity : AppCompatActivity() {
                         note.tarefas.add(tarefa)
                         note.tarefasBool.add(false)
                         adapter.atualiza(note.tarefas)
+                        edtTarefa.setText("")
                     }
                 }
             }
@@ -97,6 +108,9 @@ class FormActivity : AppCompatActivity() {
                     val dataStr = LocalDateTimeToString()
 
                     note.data = dataStr
+
+                    CoroutineScope(Dispatchers.IO).launch {notaDao.salvar(note) }
+
                     Toast(baseContext, note.toString())
                 }
             }
@@ -107,8 +121,7 @@ class FormActivity : AppCompatActivity() {
     private fun LocalDateTimeToString(): String {
         val data = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val dataStr = data.format(formatter)
-        return dataStr
+        return data.format(formatter)
     }
 
     private fun ocultarTeclado() {

@@ -16,6 +16,6 @@ data class Nota(
     var tarefas: MutableList<String> = mutableListOf(),
     var tarefasBool: MutableList<Boolean> = mutableListOf(),
     var data: String = "",
-    var finalizado:Boolean = false
+    var finalizado: Boolean = false
 
 ) : Parcelable

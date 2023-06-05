@@ -16,10 +16,10 @@ interface NotaDao {
     fun buscaTodos(): Flow<List<Nota>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun salvar(vararg nota: Nota)
+    fun salvar(vararg nota: Nota)
 
     @Delete
-    suspend fun remove(nota: Nota)
+    fun remove(nota: Nota)
 
     @Query("SELECT * FROM Nota WHERE id = :id")
     fun buscarPorId(id: String): Flow<Nota?>
