@@ -3,4 +3,5 @@
     <string name="titulo">Título</string>
     <string name="descricao">Descrição</string>
     <string name="tarefa">Add tarefa</string>
+    <string name="salvar_nota">Salvar Nota</string>
 </resources>
