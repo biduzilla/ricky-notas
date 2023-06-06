@@ -3,16 +3,16 @@ package com.example.rickynotas.ui.activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickynotas.CHAVE_NOTA_ID
 import com.example.rickynotas.data.AppDatabase
 import com.example.rickynotas.data.dao.NotaDao
 import com.example.rickynotas.databinding.ActivityFormBinding
-import com.example.rickynotas.extension.Toast
 import com.example.rickynotas.model.Nota
 import com.example.rickynotas.ui.adapter.TarefasAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 class FormActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -34,18 +35,53 @@ class FormActivity : AppCompatActivity() {
         db.notaDao()
     }
     private var count: Int = 0
-
     private var note = Nota()
+    private var notaId: String? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.toolbarVoltar.txtTitulo.text = "Criar Nota"
+        notaId = intent.getStringExtra(CHAVE_NOTA_ID)
+        notaId?.let {
+            CoroutineScope(Dispatchers.IO).launch {
+                recuperaNota()
+            }
+        }
         configRv()
         configClicks()
     }
 
+    override fun onResume() {
+        super.onResume()
+        notaId?.let {
+            configDados()
+        }
+
+    }
+
+    private suspend fun recuperaNota() {
+        val notaId = intent.getStringExtra(CHAVE_NOTA_ID)
+
+        notaId?.let { id ->
+            notaDao.buscarPorId(id).collect {
+                it?.let { notaRecuperada ->
+                    note = notaRecuperada
+
+                }
+            }
+        }
+    }
+
+    private fun configDados() {
+        with(binding) {
+            edtTitulo.setText(note.titulo)
+            edtDescricao.setText(note.descricao)
+            adapter.atualiza(note.tarefas)
+            toolbarVoltar.txtTitulo.text = "Atualizar Tarefa"
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configClicks() {
@@ -114,7 +150,7 @@ class FormActivity : AppCompatActivity() {
 
                     note.data = dataStr
 
-                    CoroutineScope(Dispatchers.IO).launch {notaDao.salvar(note) }
+                    CoroutineScope(Dispatchers.IO).launch { notaDao.salvar(note) }
 
                     finish()
                 }

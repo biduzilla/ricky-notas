@@ -52,6 +52,7 @@ class NotasAdapter(
     fun atualiza(notas: List<Nota>) {
         this.notas.clear()
         this.notas.addAll(notas)
+        this.notas.reverse()
         notifyDataSetChanged()
     }
 }
