@@ -6,4 +6,10 @@
     <string name="salvar_nota">Salvar Nota</string>
     <string name="pesquisar">Pesquisar</string>
     <string name="button">button</string>
+    <string name="editar">Editar</string>
+    <string name="excluir">Excluir</string>
+    <string name="finalizar_tarefa">Deseja finalizar tarefa?</string>
+    <string name="excluir_tarefa">Deseja excluir tarefa?</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

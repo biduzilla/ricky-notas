@@ -1,11 +1,13 @@
 package com.example.rickynotas.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickynotas.CHAVE_NOTA_ID
 import com.example.rickynotas.R
 import com.example.rickynotas.data.AppDatabase
 import com.example.rickynotas.data.dao.NotaDao
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         NotasAdapter()
     }
 
+    private var notasList:List<Nota> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -47,7 +51,8 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun buscaNotas() {
         notaDao.buscaTodos().collect { notas ->
-            adapter.atualiza(notas)
+            notasList = notas
+            adapter.atualiza(notasList)
         }
     }
 
@@ -63,7 +68,10 @@ class MainActivity : AppCompatActivity() {
             rvNotas.layoutManager = LinearLayoutManager(baseContext)
 
             adapter.onClick = {
-                Toast(baseContext, it.titulo)
+                Intent(this@MainActivity, DetalhesNotaActivity::class.java).apply {
+                    putExtra(CHAVE_NOTA_ID, it.id)
+                    startActivity(this)
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.rickynotas.ui.activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +50,7 @@ class FormActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configClicks() {
         with(binding) {
+            toolbarVoltar.btnMenu.visibility = View.GONE
             btnAddTarefa.setOnClickListener {
                 ocultarTeclado()
 
