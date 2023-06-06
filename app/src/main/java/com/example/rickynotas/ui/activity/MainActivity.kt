@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +41,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         configClicks()
         configRv()
+        pesquisarNota()
         lifecycleScope.launch { buscaNotas() }
 
+    }
+
+    private fun pesquisarNota() {
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                filtrarVaga(binding.edtSearch.text.toString())
+            }
+
+        })
+    }
+
+    private fun filtrarVaga(titulo: String) {
+        val lstVagas = mutableListOf<Nota>()
+        notasList.forEach {
+            if (it.titulo.contains(titulo)) {
+                lstVagas.add(it)
+            }
+        }
+        adapter.atualiza(lstVagas)
     }
 
     private fun ocultarTeclado() {
