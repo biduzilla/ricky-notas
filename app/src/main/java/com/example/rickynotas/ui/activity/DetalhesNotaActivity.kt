@@ -53,6 +53,7 @@ class DetalhesNotaActivity : AppCompatActivity() {
             toolbarVoltar.btnVoltar.setOnClickListener {
                 finish()
             }
+            toolbarVoltar.txtTitulo.text = "Detalhes da Tarefa"
         }
     }
 
