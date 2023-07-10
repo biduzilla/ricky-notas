@@ -1,4 +1,4 @@
-package com.example.momonotes.dao
+package com.example.momonotes.data.dao
 
 import androidx.room.*
 import com.example.momonotes.model.Nota
