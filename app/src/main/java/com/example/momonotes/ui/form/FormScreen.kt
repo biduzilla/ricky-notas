@@ -1,5 +1,7 @@
 package com.example.momonotes.ui.form
 
+import android.annotation.SuppressLint
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,13 +21,15 @@ import com.example.momonotes.ui.components.TextFieldCompleto
 import com.example.momonotes.ui.components.TopAppBarVoltar
 import com.example.momonotes.ui.theme.MomoNotesTheme
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun FormScreen(
     modifier: Modifier = Modifier,
-    state: FormStateUi,
+    viewModel: FormViewModel,
     onClickVoltar: () -> Unit = {},
     onClickDone: () -> Unit = {},
 ) {
+    val state = viewModel.uiState.collectAsState().value
     Scaffold(
         topBar = { TopAppBarVoltar(onClickVoltar, onClickDone, titulo = "Criar Nota") }
     ) { paddingValues ->
@@ -146,6 +151,8 @@ private fun ErrorText(
 @Composable
 fun FormScreenPreview() {
     MomoNotesTheme {
-        FormScreen(state = FormStateUi())
+//        val viewModel by viewModels<FormViewModel>()
+//
+//        FormScreen(viewModel = viewModel)
     }
 }

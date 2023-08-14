@@ -11,13 +11,13 @@ class Nota(
     var id: String = UUID.randomUUID().toString(),
 
     @ColumnInfo(name = "nota_titulo")
-    var titulo: String,
+    var titulo: String = "",
 
     @ColumnInfo(name = "nota_descricao")
-    var descricao: String,
+    var descricao: String = "",
 
     @ColumnInfo(name = "nota_data")
-    var data: String,
+    var data: String = "",
 
     @ColumnInfo(name = "nota_tarefas")
     var tarefas: List<String> = emptyList(),
