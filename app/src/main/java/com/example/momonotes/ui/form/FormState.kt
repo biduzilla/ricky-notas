@@ -6,7 +6,7 @@ data class FormState(
     val tarefa: String = "",
     val tarefas: List<String> = emptyList(),
     val tarefasBoolean: List<Boolean> = emptyList(),
-    val onErrorTitulo: Boolean = false,
-    val onErrorDescricao: Boolean = false,
-    val onErrorTarefa: Boolean = false,
+    var onErrorTitulo: Boolean = false,
+    var onErrorDescricao: Boolean = false,
+    var onErrorTarefa: Boolean = false,
 )

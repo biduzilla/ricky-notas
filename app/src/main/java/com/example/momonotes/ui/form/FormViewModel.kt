@@ -86,7 +86,8 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             is FormEvent.SetDescricao -> {
                 _state.update {
                     it.copy(
-                        descricao = event.descricao
+                        descricao = event.descricao,
+                        onErrorDescricao = false
                     )
                 }
             }
@@ -94,7 +95,8 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             is FormEvent.SetTarefa -> {
                 _state.update {
                     it.copy(
-                        tarefa = event.tarefa
+                        tarefa = event.tarefa,
+                        onErrorTarefa = false
                     )
                 }
             }
@@ -102,7 +104,8 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             is FormEvent.SetTitulo -> {
                 _state.update {
                     it.copy(
-                        titulo = event.titulo
+                        titulo = event.titulo,
+                        onErrorTitulo = false
                     )
                 }
             }
