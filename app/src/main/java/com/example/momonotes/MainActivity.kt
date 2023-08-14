@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.momonotes.navigation.AppNavigation
 import com.example.momonotes.ui.form.FormScreen
 import com.example.momonotes.ui.form.FormViewModel
 import com.example.momonotes.ui.theme.MomoNotesTheme
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MomoNotesTheme {
+                AppNavigation()
                 val viewModel by viewModels<FormViewModel>()
                 val state by viewModel.state.collectAsState()
 
