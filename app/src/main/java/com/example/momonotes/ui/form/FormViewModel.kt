@@ -61,7 +61,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                     return
                 }
 
-                if (_state.value.tarefa.isBlank()) {
+                if (_state.value.tarefas.isEmpty()) {
                     _state.update {
                         it.copy(
                             onErrorTarefa = true
@@ -119,6 +119,63 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             }
 
             is FormEvent.OnClickDone -> {
+                val titulo: String = _state.value.titulo
+                val descricao: String = _state.value.descricao
+                val tarefas: List<String> = _state.value.tarefas
+
+                if (titulo.isBlank()) {
+                    _state.update {
+                        it.copy(
+                            onErrorTitulo = true
+                        )
+                    }
+                    return
+                } else {
+                    _state.update {
+                        it.copy(
+                            onErrorTitulo = false
+                        )
+                    }
+                }
+
+                if (descricao.isBlank()) {
+                    _state.update {
+                        it.copy(
+                            onErrorDescricao = true
+                        )
+                    }
+                    return
+                } else {
+                    _state.update {
+                        it.copy(
+                            onErrorDescricao = false
+                        )
+                    }
+                }
+
+                if (tarefas.isEmpty() && _state.value.tarefa.isBlank()) {
+                    _state.update {
+                        it.copy(
+                            onErrorTarefa = true
+                        )
+                    }
+                    return
+                } else {
+                    _state.update {
+                        it.copy(
+                            onErrorTarefa = false
+                        )
+                    }
+                }
+
+                _state.update {
+                    it.copy(
+                        tarefa = "",
+                        titulo = "",
+                        descricao = ""
+                    )
+                }
+
                 Toast.makeText(event.context, "Done", Toast.LENGTH_SHORT).show()
             }
 

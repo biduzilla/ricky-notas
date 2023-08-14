@@ -1,22 +1,19 @@
 package com.example.momonotes.ui.form
 
 import android.annotation.SuppressLint
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.momonotes.ui.components.CardTarefa
 import com.example.momonotes.ui.components.TextFieldCompleto
 import com.example.momonotes.ui.components.TopAppBarVoltar
 import com.example.momonotes.ui.theme.MomoNotesTheme
@@ -49,7 +46,7 @@ fun FormScreen(
                     isError = state.onErrorTitulo,
                     value = state.titulo,
                     onChange = { onEvent(FormEvent.SetTitulo(it)) },
-                    label = "Tarefa",
+                    label = "Título",
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -80,9 +77,10 @@ fun FormScreen(
                     )
 
                     Button(
-                        onClick = { onEvent(FormEvent.SaveNote) },
+                        onClick = { onEvent(FormEvent.AddTarefa) },
                         Modifier
-                            .padding(horizontal = 8.dp)
+                            .padding(horizontal = 6.dp)
+                            .padding(top=8.dp)
                             .weight(1f)
                             .align(Alignment.CenterVertically)
 
@@ -93,39 +91,8 @@ fun FormScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn {
-                    items(listOf("Tarefa", "Tarefa", "Tarefa", "Tarefa")) { tarefa ->
-                        Card(
-                            modifier = Modifier.padding(top = 8.dp),
-                            shape = RoundedCornerShape(10.dp),
-                            elevation = 10.dp
-
-                        ) {
-                            Row(
-                                Modifier.padding(8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = tarefa,
-                                    Modifier
-                                        .weight(4f)
-                                        .fillMaxWidth()
-                                )
-                                Button(
-                                    onClick = { onEvent(FormEvent.SaveNote) },
-                                    Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .weight(1f)
-                                        .align(Alignment.CenterVertically)
-
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Delete,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        }
-
+                    itemsIndexed(state.tarefas) { index, tarefa ->
+                        CardTarefa(tarefa = tarefa, index = index, onEvent = onEvent)
                     }
                 }
 
@@ -150,6 +117,7 @@ private fun ErrorText(
 fun FormScreenPreview() {
     MomoNotesTheme {
 
-//        FormScreen(viewModel = viewModel)
+        val state = FormState()
+        FormScreen(state = state, onEvent = {})
     }
 }
