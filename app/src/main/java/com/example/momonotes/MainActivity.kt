@@ -7,12 +7,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.momonotes.ui.form.FormScreen
 import com.example.momonotes.ui.form.FormViewModel
 import com.example.momonotes.ui.theme.MomoNotesTheme
@@ -23,15 +20,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MomoNotesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    val viewModel by viewModels<FormViewModel>()
+                val viewModel by viewModels<FormViewModel>()
+                val state by viewModel.state.collectAsState()
 
-                    FormScreen(viewModel = viewModel)
-                }
+                FormScreen(state = state, onEvent = viewModel::onEvent)
             }
         }
     }

@@ -25,13 +25,11 @@ import com.example.momonotes.ui.theme.MomoNotesTheme
 @Composable
 fun FormScreen(
     modifier: Modifier = Modifier,
-    viewModel: FormViewModel,
-    onClickVoltar: () -> Unit = {},
-    onClickDone: () -> Unit = {},
+    state: FormState,
+    onEvent: (FormEvent) -> Unit
 ) {
-    val state = viewModel.uiState.collectAsState().value
     Scaffold(
-        topBar = { TopAppBarVoltar(onClickVoltar, onClickDone, titulo = "Criar Nota") }
+        topBar = { TopAppBarVoltar(onEvent = onEvent, titulo = "Criar Nota") }
     ) { paddingValues ->
         Column(
             modifier
@@ -50,7 +48,7 @@ fun FormScreen(
                 TextFieldCompleto(
                     isError = state.onErrorTitulo,
                     value = state.titulo,
-                    onChange = state.onChangeTitulo,
+                    onChange = { onEvent(FormEvent.SetTitulo(it)) },
                     label = "Tarefa",
                 )
 
@@ -61,7 +59,7 @@ fun FormScreen(
                 TextFieldCompleto(
                     isError = state.onErrorDescricao,
                     value = state.descricao,
-                    onChange = state.onChangeDescricao,
+                    onChange = { onEvent(FormEvent.SetDescricao(it)) },
                     label = "Descrição",
                 )
 
@@ -75,14 +73,14 @@ fun FormScreen(
                     TextFieldCompleto(
                         isError = state.onErrorTarefa,
                         value = state.tarefa,
-                        onChange = state.onChangeTarefa,
+                        onChange = { onEvent(FormEvent.SetTarefa(it)) },
                         label = "Tarefa",
                         modifier = Modifier
                             .weight(4f)
                     )
 
                     Button(
-                        onClick = { state.tarefas.add(state.tarefa) },
+                        onClick = { onEvent(FormEvent.SaveNote) },
                         Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f)
@@ -113,7 +111,7 @@ fun FormScreen(
                                         .fillMaxWidth()
                                 )
                                 Button(
-                                    onClick = { state.tarefas.add(state.tarefa) },
+                                    onClick = { onEvent(FormEvent.SaveNote) },
                                     Modifier
                                         .padding(horizontal = 8.dp)
                                         .weight(1f)
@@ -151,8 +149,7 @@ private fun ErrorText(
 @Composable
 fun FormScreenPreview() {
     MomoNotesTheme {
-//        val viewModel by viewModels<FormViewModel>()
-//
+
 //        FormScreen(viewModel = viewModel)
     }
 }

@@ -9,12 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.momonotes.ui.form.FormEvent
 
 @Composable
-fun TopAppBarVoltar(onClickVoltar: () -> Unit, onClickDone: () -> Unit, titulo: String) {
+fun TopAppBarVoltar(onEvent: (FormEvent) -> Unit = {}, titulo: String) {
+    val context = LocalContext.current
     TopAppBar {
         Box(Modifier.height(32.dp)) {
             Row(
@@ -26,14 +29,14 @@ fun TopAppBarVoltar(onClickVoltar: () -> Unit, onClickDone: () -> Unit, titulo: 
                     LocalContentAlpha provides ContentAlpha.high,
                 ) {
                     IconButton(
-                        onClick = onClickVoltar,
+                        onClick = { onEvent(FormEvent.OnClickVoltar(context)) },
                         enabled = true,
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
 
                     IconButton(
-                        onClick = onClickDone,
+                        onClick = { onEvent(FormEvent.OnClickDone(context)) },
                         enabled = true,
                     ) {
                         Icon(imageVector = Icons.Default.Done, contentDescription = null)
@@ -68,5 +71,5 @@ fun TopAppBarVoltar(onClickVoltar: () -> Unit, onClickDone: () -> Unit, titulo: 
 @Preview
 @Composable
 fun TopAppBarVoltarPreview() {
-    TopAppBarVoltar({}, {}, "Titulo")
+    TopAppBarVoltar({}, "Titulo")
 }
