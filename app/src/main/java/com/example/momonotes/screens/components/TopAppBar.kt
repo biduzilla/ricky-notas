@@ -43,7 +43,9 @@ fun TopAppBarVoltar(
                     LocalContentAlpha provides ContentAlpha.high,
                 ) {
                     IconButton(
-                        onClick = { navController.popBackStack() },
+                        onClick = {
+                            navController.popBackStack()
+                        },
                         enabled = true,
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)

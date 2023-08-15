@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 
 @Composable
 fun TextFieldCompleto(
@@ -28,8 +29,11 @@ fun TextFieldCompleto(
         modifier = modifier.fillMaxWidth(),
         label = { Text(text = label) },
         keyboardOptions = KeyboardOptions(
-            imeAction = imeAction
+            imeAction = imeAction,
+            capitalization = KeyboardCapitalization.Sentences,
+            autoCorrect = true,
         ),
+
         isError = isError,
         leadingIcon = if (icon != null) {
             { Icon(imageVector = icon, contentDescription = null) }

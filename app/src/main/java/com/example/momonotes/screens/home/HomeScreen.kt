@@ -3,6 +3,7 @@ package com.example.momonotes.screens.home
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -80,7 +81,12 @@ fun HomeScreen(
 
             LazyColumn(contentPadding = paddingValues) {
                 items(state.notas) { nota ->
-                    CardNota(nota = nota, modifier = Modifier.padding(8.dp))
+                    CardNota(
+                        nota = nota,
+                        modifier = Modifier.padding(8.dp),
+                    ) { idNota ->
+                        navController.navigate(route = Screens.DetailsScreen.name + "/$idNota")
+                    }
                 }
             }
         }
@@ -88,7 +94,11 @@ fun HomeScreen(
 }
 
 @Composable
-fun CardNota(nota: Nota, modifier: Modifier = Modifier) {
+fun CardNota(
+    nota: Nota,
+    modifier: Modifier = Modifier,
+    onItemClick: (String) -> Unit = {}
+) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -96,7 +106,9 @@ fun CardNota(nota: Nota, modifier: Modifier = Modifier) {
     val focusManager = LocalFocusManager.current
 
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable {
+            onItemClick(nota.id)
+        },
         elevation = 10.dp,
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -154,7 +166,7 @@ fun CardNotaPreview() {
             nota = Nota(
                 titulo = "Titulo",
                 data = "24/11/1996"
-            )
+            ),
         )
     }
 }
