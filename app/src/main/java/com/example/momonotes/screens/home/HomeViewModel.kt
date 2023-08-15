@@ -43,18 +43,20 @@ class HomeViewModel @Inject constructor(private val repository: NotaRepository) 
                         search = event.search
                     )
                 }
+                val notasFiltradas = mutableListOf<Nota>()
                 viewModelScope.launch {
+
                     notas.collect {
                         it.forEach { nota ->
-                            val notasFiltradas = mutableListOf<Nota>()
-                            if (nota.titulo.contains(event.search)) {
+                            if (nota.titulo.lowercase().contains(event.search.lowercase())) {
                                 notasFiltradas.add(nota)
                             }
-                            _state.update { currentState ->
-                                currentState.copy(notasFiltradas = notasFiltradas.toList())
-                            }
+                        }
+                        _state.update { currentState ->
+                            currentState.copy(notasFiltradas = notasFiltradas.toList())
                         }
                     }
+
                 }
             }
         }

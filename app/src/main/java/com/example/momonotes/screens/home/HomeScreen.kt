@@ -80,7 +80,7 @@ fun HomeScreen(
             }
 
             LazyColumn(contentPadding = paddingValues) {
-                items(state.notas) { nota ->
+                items(if (state.search.isBlank()) state.notas else state.notasFiltradas) { nota ->
                     CardNota(
                         nota = nota,
                         modifier = Modifier.padding(8.dp),

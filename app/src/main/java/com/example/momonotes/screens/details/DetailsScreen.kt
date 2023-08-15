@@ -111,7 +111,7 @@ fun DetailsScreen(
 
                             Text(
                                 text = nota,
-                                style = MaterialTheme.typography.body2,
+                                style = MaterialTheme.typography.body1,
                                 modifier = Modifier.padding(horizontal = 8.dp)
                             )
                         }
