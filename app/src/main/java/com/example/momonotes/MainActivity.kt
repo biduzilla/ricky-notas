@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MomoNotesTheme {
-                AppNavigation()
+//                AppNavigation()
                 val viewModel by viewModels<FormViewModel>()
                 val state by viewModel.state.collectAsState()
 

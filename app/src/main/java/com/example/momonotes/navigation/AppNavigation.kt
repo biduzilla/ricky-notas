@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.momonotes.ui.form.FormScreen
 import com.example.momonotes.ui.home.HomeScreen
 
 @Composable
@@ -15,10 +16,10 @@ fun AppNavigation() {
         startDestination = Screens.HomeScreen.name
     ) {
         composable(Screens.HomeScreen.name) {
-            HomeScreen()
+//            HomeScreen()
         }
         composable(Screens.FormScreen.name) {
-            HomeScreen()
+//            FormScreen()
         }
     }
 }
