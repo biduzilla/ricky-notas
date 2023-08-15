@@ -17,6 +17,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -44,14 +45,26 @@ fun HomeScreen(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    Scaffold(topBar = {
-        TopAppBar {
-            Box(
-                Modifier.padding(8.dp)
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(onClick = {
+            onEvent(HomeEvent.GoToFormScreen)
+        }) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null
+            )
+        }
+    }) { paddingValues ->
+        Column {
+            Surface(
+                color = MaterialTheme.colors.primary,
             ) {
                 TextFieldCompleto(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp),
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 16.dp
+                        ),
                     isError = false,
                     value = state.search,
                     onChange = {
@@ -62,27 +75,11 @@ fun HomeScreen(
                     imeAction = ImeAction.Done
                 )
             }
-        }
-    }, floatingActionButton = {
-        FloatingActionButton(onClick = {
-            onEvent(HomeEvent.GoToFormScreen)
-        }) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null
-            )
-        }
-    }) { paddingValues ->
-        LazyColumn(contentPadding = paddingValues) {
-            items(
-                listOf(
-                    Nota(
-                        titulo = "Titulo",
-                        data = "24/11/1996"
-                    )
-                )
-            ) { nota ->
-                CardNota(nota = nota, modifier = Modifier.padding(8.dp))
+
+            LazyColumn(contentPadding = paddingValues) {
+                items(state.notas) { nota ->
+                    CardNota(nota = nota, modifier = Modifier.padding(8.dp))
+                }
             }
         }
     }
