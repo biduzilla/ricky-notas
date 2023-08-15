@@ -32,9 +32,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,7 +67,7 @@ fun HomeScreen(
     }) { paddingValues ->
         Column {
             Surface(
-                color = MaterialTheme.colors.onPrimary,
+                color = MaterialTheme.colors.primaryVariant,
             ) {
                 TextFieldCompleto(
                     modifier = Modifier
@@ -97,6 +100,8 @@ fun CardNota(nota: Nota, modifier: Modifier = Modifier) {
     var expanded by remember {
         mutableStateOf(false)
     }
+
+    val focusManager = LocalFocusManager.current
 
     Card(
         modifier = modifier,
@@ -136,7 +141,10 @@ fun CardNota(nota: Nota, modifier: Modifier = Modifier) {
                     text = nota.data, style = MaterialTheme.typography.h6
                 )
             }
-            IconButton(onClick = { expanded = !expanded }) {
+            IconButton(onClick = {
+                expanded = !expanded
+                focusManager.clearFocus()
+            }) {
                 Icon(
                     imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                     contentDescription = null
