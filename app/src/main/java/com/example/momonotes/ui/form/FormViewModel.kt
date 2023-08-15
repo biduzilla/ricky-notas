@@ -1,11 +1,9 @@
 package com.example.momonotes.ui.form
 
 import android.widget.Toast
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.momonotes.extension.convertToString
 import com.example.momonotes.model.Nota
 import com.example.momonotes.repository.NotaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,55 +32,10 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                 _state.update {
                     it.copy(
                         tarefas = tarefas.toList(),
-                        tarefasBoolean = List(tarefas.size) { false }
+                        tarefasBoolean = List(tarefas.size) { false },
+                        tarefa = ""
                     )
                 }
-            }
-
-            FormEvent.SaveNote -> {
-                val titulo: String = _state.value.titulo
-                val descricao: String = _state.value.descricao
-                val tarefas: List<String> = _state.value.tarefas
-                val tarefasBoolean: List<Boolean> = _state.value.tarefasBoolean
-
-                if (titulo.isBlank()) {
-                    _state.update {
-                        it.copy(
-                            onErrorTitulo = true
-                        )
-                    }
-                    return
-                }
-
-                if (descricao.isBlank()) {
-                    _state.update {
-                        it.copy(
-                            onErrorDescricao = true
-                        )
-                    }
-                    return
-                }
-
-                if (_state.value.tarefas.isEmpty()) {
-                    _state.update {
-                        it.copy(
-                            onErrorTarefa = true
-                        )
-                    }
-                    return
-                }
-
-                val nota = Nota(
-                    titulo = titulo,
-                    descricao = descricao,
-                    tarefas = tarefas,
-                    tarefasBoolean = tarefasBoolean
-                )
-
-                viewModelScope.launch {
-                    repository.addNota(nota)
-                }
-
             }
 
             is FormEvent.SetDescricao -> {
@@ -121,7 +76,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                 }
             }
 
-            is FormEvent.OnClickDone -> {
+            is FormEvent.OnClickSalvarNota -> {
                 val titulo: String = _state.value.titulo
                 val descricao: String = _state.value.descricao
                 val tarefas: List<String> = _state.value.tarefas
@@ -179,11 +134,19 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                     )
                 }
 
-                Toast.makeText(event.context, "Done", Toast.LENGTH_SHORT).show()
-            }
+                with(_state.value) {
+                    val nota = Nota(
+                        titulo = titulo,
+                        descricao = descricao,
+                        data = Date.from(Instant.now()).convertToString(),
+                        tarefas = tarefas,
+                        tarefasBoolean = tarefasBoolean
+                    )
 
-            is FormEvent.OnClickVoltar -> {
-                Toast.makeText(event.context, "Voltar", Toast.LENGTH_SHORT).show()
+                    viewModelScope.launch {
+                        repository.addNota(nota)
+                    }
+                }
             }
         }
     }

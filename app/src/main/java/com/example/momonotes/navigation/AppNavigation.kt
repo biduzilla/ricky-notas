@@ -15,7 +15,7 @@ import com.example.momonotes.ui.home.HomeState
 import com.example.momonotes.ui.home.HomeViewModel
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(activity: ComponentActivity) {
     val navController = rememberNavController()
 
     NavHost(
@@ -23,14 +23,17 @@ fun AppNavigation() {
         startDestination = Screens.HomeScreen.name
     ) {
         composable(Screens.HomeScreen.name) {
-            val viewModel by ComponentActivity().viewModels<HomeViewModel>()
+            val viewModel by activity.viewModels<HomeViewModel>()
             val state by viewModel.state.collectAsState()
+
             HomeScreen(navController = navController, state = state, onEvent = viewModel::onEvent)
         }
         composable(Screens.FormScreen.name) {
-            val viewModel by ComponentActivity().viewModels<FormViewModel>()
+            val viewModel by activity.viewModels<FormViewModel>()
             val state by viewModel.state.collectAsState()
+
             FormScreen(navController = navController, state = state, onEvent = viewModel::onEvent)
         }
     }
+
 }

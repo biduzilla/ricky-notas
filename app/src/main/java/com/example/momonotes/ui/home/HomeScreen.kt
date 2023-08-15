@@ -26,12 +26,14 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -62,7 +64,7 @@ fun HomeScreen(
     }) { paddingValues ->
         Column {
             Surface(
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colors.onPrimary,
             ) {
                 TextFieldCompleto(
                     modifier = Modifier
@@ -126,7 +128,8 @@ fun CardNota(nota: Nota, modifier: Modifier = Modifier) {
                 if (expanded) {
                     Text(
                         text = nota.descricao,
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
+                        modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
                 Text(
@@ -161,6 +164,6 @@ fun CardNotaPreview() {
 fun HomeScreenPreview() {
     val context = LocalContext.current
     MomoNotesTheme {
-        HomeScreen(NavController(context),HomeState(), {})
+        HomeScreen(NavController(context), HomeState(), {})
     }
 }

@@ -30,9 +30,11 @@ fun TextFieldCompleto(
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction
         ),
-        leadingIcon = {
-            if (icon != null) Icon(imageVector = icon, contentDescription = null)
-        },
-        isError = isError
+        isError = isError,
+        leadingIcon = if (icon != null) {
+            { Icon(imageVector = icon, contentDescription = null) }
+        } else {
+            null
+        }
     )
 }

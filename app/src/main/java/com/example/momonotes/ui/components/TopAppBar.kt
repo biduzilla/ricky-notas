@@ -8,20 +8,24 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.momonotes.ui.form.FormEvent
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TopAppBarVoltar(
     navController: NavController,
     onEvent: (FormEvent) -> Unit = {},
     titulo: String
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
     TopAppBar {
         Box(Modifier.height(32.dp)) {
@@ -41,7 +45,11 @@ fun TopAppBarVoltar(
                     }
 
                     IconButton(
-                        onClick = { onEvent(FormEvent.OnClickDone(context)) },
+                        onClick = {
+                            onEvent(FormEvent.OnClickSalvarNota(context))
+                            keyboardController?.hide()
+                            navController.popBackStack()
+                        },
                         enabled = true,
                     ) {
                         Icon(imageVector = Icons.Default.Done, contentDescription = null)

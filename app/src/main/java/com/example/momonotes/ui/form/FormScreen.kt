@@ -9,9 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -20,6 +22,7 @@ import com.example.momonotes.ui.components.TextFieldCompleto
 import com.example.momonotes.ui.components.TopAppBarVoltar
 import com.example.momonotes.ui.theme.MomoNotesTheme
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun FormScreen(
@@ -28,6 +31,8 @@ fun FormScreen(
     state: FormState,
     onEvent: (FormEvent) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Scaffold(
         topBar = {
             TopAppBarVoltar(
@@ -41,6 +46,7 @@ fun FormScreen(
             modifier
                 .padding(paddingValues)
                 .fillMaxSize()
+
         ) {
             Column(
                 modifier
@@ -86,7 +92,10 @@ fun FormScreen(
                     )
 
                     Button(
-                        onClick = { onEvent(FormEvent.AddTarefa) },
+                        onClick = {
+                            onEvent(FormEvent.AddTarefa)
+                            keyboardController
+                        },
                         Modifier
                             .padding(horizontal = 6.dp)
                             .padding(top = 8.dp)
