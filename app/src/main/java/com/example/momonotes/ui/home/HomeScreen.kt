@@ -32,22 +32,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.momonotes.model.Nota
+import com.example.momonotes.navigation.Screens
 import com.example.momonotes.ui.components.TextFieldCompleto
 import com.example.momonotes.ui.theme.MomoNotesTheme
+import java.util.Locale
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     state: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
-            onEvent(HomeEvent.GoToFormScreen)
+            navController.navigate(route = Screens.FormScreen.name)
         }) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -154,7 +159,8 @@ fun CardNotaPreview() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
+    val context = LocalContext.current
     MomoNotesTheme {
-        HomeScreen(HomeState(), {})
+        HomeScreen(NavController(context),HomeState(), {})
     }
 }

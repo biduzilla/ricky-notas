@@ -13,10 +13,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.momonotes.ui.form.FormEvent
 
 @Composable
-fun TopAppBarVoltar(onEvent: (FormEvent) -> Unit = {}, titulo: String) {
+fun TopAppBarVoltar(
+    navController: NavController,
+    onEvent: (FormEvent) -> Unit = {},
+    titulo: String
+) {
     val context = LocalContext.current
     TopAppBar {
         Box(Modifier.height(32.dp)) {
@@ -29,7 +34,7 @@ fun TopAppBarVoltar(onEvent: (FormEvent) -> Unit = {}, titulo: String) {
                     LocalContentAlpha provides ContentAlpha.high,
                 ) {
                     IconButton(
-                        onClick = { onEvent(FormEvent.OnClickVoltar(context)) },
+                        onClick = { navController.popBackStack() },
                         enabled = true,
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -71,5 +76,6 @@ fun TopAppBarVoltar(onEvent: (FormEvent) -> Unit = {}, titulo: String) {
 @Preview
 @Composable
 fun TopAppBarVoltarPreview() {
-    TopAppBarVoltar({}, "Titulo")
+    val context = LocalContext.current
+    TopAppBarVoltar(NavController(context), {}, "Titulo")
 }

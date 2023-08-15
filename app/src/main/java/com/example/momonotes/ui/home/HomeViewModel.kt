@@ -35,10 +35,6 @@ class HomeViewModel @Inject constructor(private val repository: NotaRepository) 
 
     fun onEvent(event: HomeEvent) {
         when (event) {
-            HomeEvent.GoToFormScreen -> {
-
-            }
-
             is HomeEvent.SetSearch -> {
                 _state.update {
                     it.copy(

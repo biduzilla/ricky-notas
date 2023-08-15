@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.momonotes.ui.components.CardTarefa
 import com.example.momonotes.ui.components.TextFieldCompleto
 import com.example.momonotes.ui.components.TopAppBarVoltar
@@ -21,12 +23,19 @@ import com.example.momonotes.ui.theme.MomoNotesTheme
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun FormScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     state: FormState,
     onEvent: (FormEvent) -> Unit
 ) {
     Scaffold(
-        topBar = { TopAppBarVoltar(onEvent = onEvent, titulo = "Criar Nota") }
+        topBar = {
+            TopAppBarVoltar(
+                navController = navController,
+                onEvent = onEvent,
+                titulo = "Criar Nota"
+            )
+        }
     ) { paddingValues ->
         Column(
             modifier
@@ -80,7 +89,7 @@ fun FormScreen(
                         onClick = { onEvent(FormEvent.AddTarefa) },
                         Modifier
                             .padding(horizontal = 6.dp)
-                            .padding(top=8.dp)
+                            .padding(top = 8.dp)
                             .weight(1f)
                             .align(Alignment.CenterVertically)
 
@@ -116,8 +125,8 @@ private fun ErrorText(
 @Composable
 fun FormScreenPreview() {
     MomoNotesTheme {
-
         val state = FormState()
-        FormScreen(state = state, onEvent = {})
+        val context = LocalContext.current
+        FormScreen(state = state, onEvent = {}, navController = NavController(context))
     }
 }
