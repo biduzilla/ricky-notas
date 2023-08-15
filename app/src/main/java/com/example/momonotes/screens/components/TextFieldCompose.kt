@@ -1,4 +1,4 @@
-package com.example.momonotes.ui.components
+package com.example.momonotes.screens.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -8,11 +8,10 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.momonotes.ui.form.FormScreen
-import com.example.momonotes.ui.form.FormViewModel
-import com.example.momonotes.ui.home.HomeScreen
-import com.example.momonotes.ui.home.HomeState
-import com.example.momonotes.ui.home.HomeViewModel
+import com.example.momonotes.screens.form.FormScreen
+import com.example.momonotes.screens.form.FormViewModel
+import com.example.momonotes.screens.home.HomeScreen
+import com.example.momonotes.screens.home.HomeViewModel
 
 @Composable
 fun AppNavigation(activity: ComponentActivity) {

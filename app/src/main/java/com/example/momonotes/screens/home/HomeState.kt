@@ -1,4 +1,4 @@
-package com.example.momonotes.ui.home
+package com.example.momonotes.screens.home
 
 import com.example.momonotes.model.Nota
 

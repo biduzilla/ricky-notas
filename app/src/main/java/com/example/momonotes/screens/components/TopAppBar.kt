@@ -1,10 +1,11 @@
-package com.example.momonotes.ui.components
+package com.example.momonotes.screens.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -16,14 +17,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.momonotes.ui.form.FormEvent
+import com.example.momonotes.screens.details.DetailsEvent
+import com.example.momonotes.screens.form.FormEvent
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TopAppBarVoltar(
     navController: NavController,
-    onEvent: (FormEvent) -> Unit = {},
-    titulo: String
+    onEventForm: (FormEvent) -> Unit = {},
+    onEventDetails: (DetailsEvent) -> Unit = {},
+    titulo: String,
+    isDetails: Boolean = false
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
@@ -46,13 +50,21 @@ fun TopAppBarVoltar(
 
                     IconButton(
                         onClick = {
-                            onEvent(FormEvent.OnClickSalvarNota(context))
+                            if (isDetails) {
+                                onEventDetails(DetailsEvent.EditarNota)
+                            } else {
+                                onEventForm(FormEvent.OnClickSalvarNota(context))
+                            }
+
                             keyboardController?.hide()
                             navController.popBackStack()
                         },
                         enabled = true,
                     ) {
-                        Icon(imageVector = Icons.Default.Done, contentDescription = null)
+                        Icon(
+                            imageVector = if (isDetails) Icons.Default.Edit else Icons.Default.Done,
+                            contentDescription = null
+                        )
                     }
                 }
             }
@@ -85,5 +97,5 @@ fun TopAppBarVoltar(
 @Composable
 fun TopAppBarVoltarPreview() {
     val context = LocalContext.current
-    TopAppBarVoltar(NavController(context), {}, "Titulo")
+    TopAppBarVoltar(NavController(context), {},{}, "Titulo")
 }

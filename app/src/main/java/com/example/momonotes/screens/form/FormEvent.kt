@@ -1,4 +1,4 @@
-package com.example.momonotes.ui.form
+package com.example.momonotes.screens.form
 
 import android.content.Context
 

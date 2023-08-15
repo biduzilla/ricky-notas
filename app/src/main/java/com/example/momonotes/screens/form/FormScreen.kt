@@ -1,4 +1,4 @@
-package com.example.momonotes.ui.form
+package com.example.momonotes.screens.form
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
@@ -17,9 +17,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.momonotes.ui.components.CardTarefa
-import com.example.momonotes.ui.components.TextFieldCompleto
-import com.example.momonotes.ui.components.TopAppBarVoltar
+import com.example.momonotes.screens.components.CardTarefa
+import com.example.momonotes.screens.components.TextFieldCompleto
+import com.example.momonotes.screens.components.TopAppBarVoltar
 import com.example.momonotes.ui.theme.MomoNotesTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -37,7 +37,7 @@ fun FormScreen(
         topBar = {
             TopAppBarVoltar(
                 navController = navController,
-                onEvent = onEvent,
+                onEventForm = onEvent,
                 titulo = "Criar Nota"
             )
         }
