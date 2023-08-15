@@ -3,6 +3,6 @@ package com.example.momonotes.screens.details
 import android.content.Context
 
 sealed interface DetailsEvent {
-    object EditarNota : DetailsEvent
-    data class onChangeTarefa(val index:Int):DetailsEvent
+    data class GetIdNota(val idNota:String):DetailsEvent
+    data class OnChangeTarefa(val index:Int):DetailsEvent
 }

@@ -15,4 +15,5 @@ class NotaRepository @Inject constructor(private val notaDao: NotaDatabaseDao) {
     suspend fun deleteNota(nota: Nota) = notaDao.deleteNota(nota)
     suspend fun deleteAll() = notaDao.deleteAll()
     fun getAllNotas(): Flow<List<Nota>> = notaDao.getAll().flowOn(Dispatchers.IO).conflate()
+    suspend fun getNoteById(id:String):Nota = notaDao.getNoteById(id)
 }
