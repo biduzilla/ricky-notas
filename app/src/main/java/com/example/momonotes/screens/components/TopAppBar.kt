@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.momonotes.navigation.Screens
 import com.example.momonotes.screens.details.DetailsEvent
 import com.example.momonotes.screens.form.FormEvent
 
@@ -51,7 +52,7 @@ fun TopAppBarVoltar(
                     IconButton(
                         onClick = {
                             if (isDetails) {
-                                onEventDetails(DetailsEvent.EditarNota)
+                                navController.navigate(Screens.FormScreen.name)
                             } else {
                                 onEventForm(FormEvent.OnClickSalvarNota(context))
                             }
@@ -97,5 +98,5 @@ fun TopAppBarVoltar(
 @Composable
 fun TopAppBarVoltarPreview() {
     val context = LocalContext.current
-    TopAppBarVoltar(NavController(context), {},{}, "Titulo")
+    TopAppBarVoltar(NavController(context), {}, {}, "Titulo")
 }

@@ -28,12 +28,14 @@ import com.example.momonotes.ui.theme.MomoNotesTheme
 @Composable
 fun DetailsScreen(
     modifier: Modifier = Modifier,
-    idNota: String,
+    idNota: String?,
     navController: NavController,
     state: DetailsState,
     onEvent: (DetailsEvent) -> Unit = {},
 ) {
-    onEvent(DetailsEvent.GetIdNota(idNota))
+    idNota?.let {
+        onEvent(DetailsEvent.GetIdNota(it))
+    }
 
     Scaffold(
         topBar = {
@@ -88,7 +90,7 @@ fun DetailsScreen(
 
                             Checkbox(
                                 checked = state.nota.tarefasBoolean[index],
-                                onCheckedChange = { onEvent(DetailsEvent.onChangeTarefa(index)) }
+                                onCheckedChange = { onEvent(DetailsEvent.OnChangeTarefa(index)) }
                             )
                         }
                     }

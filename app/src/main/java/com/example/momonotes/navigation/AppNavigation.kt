@@ -5,9 +5,13 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.momonotes.screens.details.DetailsScreen
+import com.example.momonotes.screens.details.DetailsViewModel
 import com.example.momonotes.screens.form.FormScreen
 import com.example.momonotes.screens.form.FormViewModel
 import com.example.momonotes.screens.home.HomeScreen
@@ -32,6 +36,22 @@ fun AppNavigation(activity: ComponentActivity) {
             val state by viewModel.state.collectAsState()
 
             FormScreen(navController = navController, state = state, onEvent = viewModel::onEvent)
+        }
+
+        composable(
+            Screens.DetailsScreen.name + "/{idNota}",
+            arguments = listOf(navArgument(name = "idNota") { type = NavType.StringType })
+        ) { backStackEntry ->
+
+            val viewModel by activity.viewModels<DetailsViewModel>()
+            val state by viewModel.state.collectAsState()
+
+            DetailsScreen(
+                navController = navController,
+                idNota = backStackEntry.arguments?.getString("idNota"),
+                state = state,
+                onEvent = viewModel::onEvent
+            )
         }
     }
 
