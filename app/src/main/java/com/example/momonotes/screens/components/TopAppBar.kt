@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,23 +53,40 @@ fun TopAppBarVoltar(
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
 
-                    IconButton(
-                        onClick = {
-                            if (isDetails) {
-                                navController.navigate(Screens.FormScreen.name)
-                            } else {
-                                onEventForm(FormEvent.OnClickSalvarNota(context))
-                            }
+                    Row {
+                        IconButton(
+                            onClick = {
+                                if (isDetails) {
+                                    navController.navigate(Screens.FormScreen.name)
+                                } else {
+                                    onEventForm(FormEvent.OnClickSalvarNota(context))
+                                }
 
-                            keyboardController?.hide()
-                            navController.popBackStack()
-                        },
-                        enabled = true,
-                    ) {
-                        Icon(
-                            imageVector = if (isDetails) Icons.Default.Edit else Icons.Default.Done,
-                            contentDescription = null
-                        )
+                                keyboardController?.hide()
+                                navController.popBackStack()
+                            },
+                            enabled = true,
+                        ) {
+                            Icon(
+                                imageVector = if (isDetails) Icons.Default.Edit else Icons.Default.Done,
+                                contentDescription = null
+                            )
+                        }
+                        if (isDetails) {
+                            IconButton(
+                                onClick = {
+                                    onEventDetails(DetailsEvent.OnDeleteNota)
+                                    keyboardController?.hide()
+                                    navController.popBackStack()
+                                },
+                                enabled = true,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = null
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -77,7 +96,7 @@ fun TopAppBarVoltar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                ProvideTextStyle(value = MaterialTheme.typography.h6) {
+                ProvideTextStyle(value = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)) {
                     CompositionLocalProvider(
                         LocalContentAlpha provides ContentAlpha.high,
                     ) {

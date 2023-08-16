@@ -29,6 +29,7 @@ fun FormScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     state: FormState,
+    idNota: String? = null,
     onEvent: (FormEvent) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current

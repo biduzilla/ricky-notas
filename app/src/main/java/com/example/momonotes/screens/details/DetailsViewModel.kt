@@ -40,6 +40,12 @@ class DetailsViewModel @Inject constructor(private val repository: NotaRepositor
                     repository.updateNota(_state.value.nota)
                 }
             }
+
+            DetailsEvent.OnDeleteNota -> {
+                viewModelScope.launch {
+                    repository.deleteNota(nota = _state.value.nota)
+                }
+            }
         }
     }
 }

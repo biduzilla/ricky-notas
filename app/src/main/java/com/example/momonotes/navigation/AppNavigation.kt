@@ -31,11 +31,21 @@ fun AppNavigation(activity: ComponentActivity) {
 
             HomeScreen(navController = navController, state = state, onEvent = viewModel::onEvent)
         }
-        composable(Screens.FormScreen.name) {
+        composable(
+            Screens.FormScreen.name + "/idNota}",
+            arguments = listOf(navArgument(name = "idNota") {
+                type = NavType.StringType
+            })
+        ) { backStrack ->
             val viewModel by activity.viewModels<FormViewModel>()
             val state by viewModel.state.collectAsState()
 
-            FormScreen(navController = navController, state = state, onEvent = viewModel::onEvent)
+            FormScreen(
+                idNota = backStrack.arguments?.getString("idNota"),
+                navController = navController,
+                state = state,
+                onEvent = viewModel::onEvent
+            )
         }
 
         composable(
