@@ -39,7 +39,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                 _state.update {
                     it.copy(
                         tarefas = tarefas.toList(),
-                        tarefasBoolean = tarefasBoolean,
+                        tarefasBoolean = tarefasBoolean.toList(),
                         tarefa = ""
                     )
                 }
