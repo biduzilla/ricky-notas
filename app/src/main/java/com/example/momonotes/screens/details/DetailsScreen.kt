@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.momonotes.model.Nota
+import com.example.momonotes.navigation.Screens
 import com.example.momonotes.screens.components.TopAppBarVoltar
 import com.example.momonotes.ui.theme.MomoNotesTheme
 
@@ -52,7 +53,9 @@ fun DetailsScreen(
                 titulo = state.nota.titulo,
                 isDetails = true,
                 onEventDetails = onEvent
-            )
+            ) {
+                navController.navigate(route = Screens.FormScreen.name + "/$idNota")
+            }
         }
     ) { paddingValues ->
         Column {

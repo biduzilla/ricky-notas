@@ -147,6 +147,20 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                     }
                 }
             }
+
+            is FormEvent.UpdateNota -> {
+                viewModelScope.launch {
+                    val nota: Nota = repository.getNoteById(event.idNota)
+                    _state.update {
+                        it.copy(
+                            titulo = nota.titulo,
+                            descricao = nota.descricao,
+                            tarefas = nota.tarefas,
+                            tarefasBoolean = nota.tarefasBoolean,
+                        )
+                    }
+                }
+            }
         }
     }
 }

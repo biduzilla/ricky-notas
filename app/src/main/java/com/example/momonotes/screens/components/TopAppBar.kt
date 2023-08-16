@@ -30,7 +30,8 @@ fun TopAppBarVoltar(
     onEventForm: (FormEvent) -> Unit = {},
     onEventDetails: (DetailsEvent) -> Unit = {},
     titulo: String,
-    isDetails: Boolean = false
+    isDetails: Boolean = false,
+    onUpdateClick: () -> Unit = {}
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
@@ -57,7 +58,7 @@ fun TopAppBarVoltar(
                         IconButton(
                             onClick = {
                                 if (isDetails) {
-                                    navController.navigate(Screens.FormScreen.name)
+                                    onUpdateClick
                                 } else {
                                     onEventForm(FormEvent.OnClickSalvarNota(context))
                                 }

@@ -34,6 +34,10 @@ fun FormScreen(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    idNota?.let {
+        onEvent(FormEvent.UpdateNota(it))
+    }
+
     Scaffold(
         topBar = {
             TopAppBarVoltar(
