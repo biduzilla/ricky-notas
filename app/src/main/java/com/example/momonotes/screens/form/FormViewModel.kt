@@ -30,13 +30,16 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             FormEvent.AddTarefa -> {
                 val tarefa = _state.value.tarefa
                 val tarefas: MutableList<String> = _state.value.tarefas.toMutableList()
+                val tarefasBoolean: MutableList<Boolean> =
+                    _state.value.tarefasBoolean.toMutableList()
 
+                tarefasBoolean.add(false)
                 tarefas.add(tarefa)
 
                 _state.update {
                     it.copy(
                         tarefas = tarefas.toList(),
-                        tarefasBoolean = List(tarefas.size) { false },
+                        tarefasBoolean = tarefasBoolean,
                         tarefa = ""
                     )
                 }
@@ -150,11 +153,11 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
 
                     idNota?.let {
                         id = it
-                    }?: kotlin.run {
+                    } ?: kotlin.run {
                         id = UUID.randomUUID().toString()
                     }
                     val nota = Nota(
-                        id=id,
+                        id = id,
                         titulo = titulo,
                         descricao = descricao,
                         data = Date.from(Instant.now()).convertToString(),
@@ -185,7 +188,9 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                 }
             }
 
-            FormEvent.ClearState -> TODO()
+            FormEvent.ClearState -> {
+                _state.value = FormState()
+            }
         }
     }
 }

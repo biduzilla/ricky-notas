@@ -48,7 +48,8 @@ fun TopAppBarVoltar(
                 ) {
                     IconButton(
                         onClick = {
-                            navController.popBackStack()
+                            onEventForm(FormEvent.ClearState)
+                            navController.navigateUp()
                         },
                         enabled = true,
                     ) {
