@@ -190,6 +190,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
 
             FormEvent.ClearState -> {
                 _state.value = FormState()
+                idNota = null
             }
         }
     }

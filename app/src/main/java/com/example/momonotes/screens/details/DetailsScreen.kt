@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,8 +42,13 @@ fun DetailsScreen(
 ) {
     val context = LocalContext.current
 
-    idNota?.let {
-        onEvent(DetailsEvent.GetIdNota(it))
+    var deleteNotaEventHandled: Boolean by remember { mutableStateOf(false) }
+
+    if (!deleteNotaEventHandled) {
+        idNota?.let {
+            onEvent(DetailsEvent.GetIdNota(it))
+        }
+        deleteNotaEventHandled = true
     }
 
     Scaffold(

@@ -50,7 +50,7 @@ fun FormScreen(
             TopAppBarVoltar(
                 navController = navController,
                 onEventForm = onEvent,
-                titulo = "Criar Nota",
+                titulo = if (idNota == null) "Criar Nota" else "Update Nota",
             )
         }
     ) { paddingValues ->
