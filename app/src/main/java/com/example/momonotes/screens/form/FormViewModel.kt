@@ -1,5 +1,8 @@
 package com.example.momonotes.screens.form
 
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.momonotes.extension.convertToString
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +23,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
 
     private val _state = MutableStateFlow(FormState())
     val state = _state.asStateFlow()
+    private var idNota: String? = null
 
     fun onEvent(event: FormEvent) {
         when (event) {
@@ -38,6 +43,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             }
 
             is FormEvent.SetDescricao -> {
+                Log.i("infoteste", "onEvent: descricao : ${event.descricao}")
                 _state.update {
                     it.copy(
                         descricao = event.descricao,
@@ -47,6 +53,7 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             }
 
             is FormEvent.SetTarefa -> {
+                Log.i("infoteste", "onEvent: tarefa : ${event.tarefa}")
                 _state.update {
                     it.copy(
                         tarefa = event.tarefa,
@@ -56,17 +63,22 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             }
 
             is FormEvent.SetTitulo -> {
+                Log.i("infoteste", "onEvent: Titulo : ${event.titulo}")
+
                 _state.update {
                     it.copy(
                         titulo = event.titulo,
                         onErrorTitulo = false
                     )
                 }
+                Log.i("infoteste", "onEvent: TituloState : ${_state.value.titulo}")
             }
 
             is FormEvent.RemoveTarefa -> {
                 val tarefas: MutableList<String> = _state.value.tarefas.toMutableList()
+
                 tarefas.removeAt(event.tarefaIndex)
+
                 _state.update {
                     it.copy(
                         tarefas = tarefas.toList(),
@@ -134,7 +146,15 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                 }
 
                 with(_state.value) {
+                    var id = ""
+
+                    idNota?.let {
+                        id = it
+                    }?: kotlin.run {
+                        id = UUID.randomUUID().toString()
+                    }
                     val nota = Nota(
+                        id=id,
                         titulo = titulo,
                         descricao = descricao,
                         data = Date.from(Instant.now()).convertToString(),
@@ -151,6 +171,9 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
             is FormEvent.UpdateNota -> {
                 viewModelScope.launch {
                     val nota: Nota = repository.getNoteById(event.idNota)
+
+                    idNota = event.idNota
+
                     _state.update {
                         it.copy(
                             titulo = nota.titulo,
@@ -161,6 +184,8 @@ class FormViewModel @Inject constructor(private val repository: NotaRepository) 
                     }
                 }
             }
+
+            FormEvent.ClearState -> TODO()
         }
     }
 }

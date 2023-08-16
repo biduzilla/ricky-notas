@@ -20,13 +20,13 @@ class DetailsViewModel @Inject constructor(private val repository: NotaRepositor
     fun onEvent(event: DetailsEvent) {
         when (event) {
             is DetailsEvent.GetIdNota -> {
-                if (_state.value.nota.titulo.isBlank()) {
-                    viewModelScope.launch {
-                        val nota = repository.getNoteById(event.idNota)
-                        _state.update { currentState ->
-                            currentState.copy(nota = nota)
-                        }
+//                if (_state.value.nota.titulo.isBlank()) {
+                viewModelScope.launch {
+                    val nota = repository.getNoteById(event.idNota)
+                    _state.update { currentState ->
+                        currentState.copy(nota = nota)
                     }
+//                    }
                 }
             }
 

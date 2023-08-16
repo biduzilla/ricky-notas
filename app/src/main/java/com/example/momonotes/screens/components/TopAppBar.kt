@@ -1,5 +1,6 @@
 package com.example.momonotes.screens.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -58,13 +59,13 @@ fun TopAppBarVoltar(
                         IconButton(
                             onClick = {
                                 if (isDetails) {
-                                    onUpdateClick
+                                    onUpdateClick()
                                 } else {
                                     onEventForm(FormEvent.OnClickSalvarNota(context))
+                                    navController.popBackStack()
                                 }
 
                                 keyboardController?.hide()
-                                navController.popBackStack()
                             },
                             enabled = true,
                         ) {

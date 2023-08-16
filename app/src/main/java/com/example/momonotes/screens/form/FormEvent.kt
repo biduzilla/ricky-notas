@@ -4,6 +4,7 @@ import android.content.Context
 
 sealed interface FormEvent {
     object AddTarefa : FormEvent
+    object ClearState : FormEvent
     data class OnClickSalvarNota(val context: Context) : FormEvent
     data class UpdateNota(val idNota:String) : FormEvent
     data class RemoveTarefa(val tarefaIndex: Int) : FormEvent

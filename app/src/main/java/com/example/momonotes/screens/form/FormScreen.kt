@@ -8,6 +8,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -34,8 +38,11 @@ fun FormScreen(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    idNota?.let {
-        onEvent(FormEvent.UpdateNota(it))
+    var updateNotaEventHandled by remember { mutableStateOf(false) }
+
+    if (!updateNotaEventHandled && idNota != null) {
+        onEvent(FormEvent.UpdateNota(idNota))
+        updateNotaEventHandled = true
     }
 
     Scaffold(
@@ -99,7 +106,7 @@ fun FormScreen(
                     Button(
                         onClick = {
                             onEvent(FormEvent.AddTarefa)
-                            keyboardController
+                            keyboardController?.hide()
                         },
                         Modifier
                             .padding(horizontal = 6.dp)
